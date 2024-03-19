@@ -1,0 +1,48 @@
+{
+  "name": "ufrida",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "author": "r3x5ur <r3x5ur@developer.org>",
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c --bundleConfigAsCjs",
+    "prepack": "yarn build",
+    "format": "prettier --write .",
+    "ts-node": "ts-node",
+    "preinstall": "node install.js",
+    "test": "node --expose-gc node_modules/mocha/bin/_mocha -r ts-node/register test/*.ts"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.2",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/chai": "^4.2.18",
+    "@types/mocha": "^10.0.3",
+    "@types/node": "^16.18.89",
+    "@types/tar": "^6.1.11",
+    "chai": "^4.3.4",
+    "mocha": "^10.3.0",
+    "prettier": "^2.8.8",
+    "rollup": "^3.25.2",
+    "rollup-plugin-clear": "^2.0.7",
+    "rollup-plugin-conditional": "^3.1.2",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-license": "^3.0.1",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^5.0.2"
+  },
+  "dependencies": {
+    "tar": "^6.2.0"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "install.js",
+    "README.md",
+    "package.json"
+  ]
+}
