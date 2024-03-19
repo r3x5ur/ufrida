@@ -6,7 +6,9 @@
 Node.js bindings for [Frida](https://frida.re).
 
 ## 更改说明
-> 直接从官网下载构建好的 bindings，省去繁琐的编译环境配置，直接使用即可。
+1. 去除繁琐的编译环境配置
+2. 优化打包体积
+3. 增加代码提示
 
 ## Depends
 
