@@ -9,6 +9,8 @@ Node.js bindings for [Frida](https://frida.re).
 1. 去除繁琐的编译环境配置
 2. 优化打包体积
 3. 增加代码提示
+4. [示例程序](./example)
+
 
 ## Depends
 
