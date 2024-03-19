@@ -28,6 +28,7 @@
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
     "prepack": "yarn build",
+    "prepublish": "yarn build",
     "format": "prettier --write .",
     "ts-node": "ts-node",
     "preinstall": "node install.js",
@@ -64,5 +65,8 @@
     "install.js",
     "README.md",
     "package.json"
-  ]
+  ],
+  "engines": {
+    "node": ">=8.0.0"
+  }
 }
