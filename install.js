@@ -103,7 +103,6 @@ async function installBinding() {
     try {
       require('./build/Release/frida_binding')
     } catch (e) {
-      console.log(e)
       await installBinding()
     }
   } catch (e) {

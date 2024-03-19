@@ -3,8 +3,27 @@
   "version": "1.0.0",
   "type": "commonjs",
   "main": "dist/index.js",
-  "types": "dist/types/index.d.ts",
   "author": "r3x5ur <r3x5ur@developer.org>",
+  "authors": [
+    "Frida Developers"
+  ],
+  "description": "Inject JavaScript to explore native apps on Windows, Mac, Linux, iOS and Android",
+  "keywords": [
+    "debugger",
+    "tracer",
+    "instrumentation",
+    "hooking",
+    "inject",
+    "windows",
+    "macos",
+    "linux",
+    "ios",
+    "iphone",
+    "ipad",
+    "android"
+  ],
+  "homepage": "https://github.com/r3x5ur/ufrida",
+  "types": "dist/types/index.d.ts",
   "license": "MIT",
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
@@ -36,6 +55,7 @@
     "typescript": "^5.0.2"
   },
   "dependencies": {
+    "@types/frida-gum": "^18.7.0",
     "tar": "^6.2.0"
   },
   "files": [
