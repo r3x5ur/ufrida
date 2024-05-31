@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "@types/frida-gum": "^18.7.0",
+    "https-proxy-agent": "^7.0.4",
     "tar": "^6.2.0"
   },
   "files": [

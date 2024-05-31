@@ -18,10 +18,19 @@ Node.js bindings for [Frida](https://frida.re).
 
 ## Install
 
-Install from binary:
+- 安装方法:
 
-```sh
-$ npm install ufrida
+- 需要先配置代理，墙内速度极慢
+  - windows `set http_proxy=http://127.0.0.1:7890`
+  - *nix `export http_proxy=http://127.0.0.1:7890`
+
+
+```shell
+npm install ufrida
+# or
+yarn add ufrida
+# or
+pnpm add ufrida
 ```
 
 ## Examples

@@ -3,12 +3,21 @@ const path = require('node:path')
 const https = require('node:https')
 const fs = require('node:fs/promises')
 const tar = require('tar')
+const { HttpsProxyAgent } = require('https-proxy-agent')
 const { name } = JSON.parse(require('fs').readFileSync('package.json', 'utf8'))
 
 const logPrefix = `[${name}]`
 const error = (...args) => console.error(logPrefix, ...args)
 const warn = (...args) => console.warn(logPrefix, ...args)
 const log = (...args) => console.warn(logPrefix, ...args)
+
+// 从环境变量中读取代理 URL
+const proxyUrl = process.env.https_proxy || process.env.HTTPS_PROXY || process.env.http_proxy || process.env.HTTP_PROXY
+
+if (!proxyUrl) {
+  warn('Environment variable HTTPS_PROXY or HTTP_PROXY not set.')
+}
+let agent
 
 /**
  * @param {string | URL} url
@@ -17,6 +26,10 @@ const log = (...args) => console.warn(logPrefix, ...args)
  * */
 function _get(url, options) {
   options = options || {}
+  if (proxyUrl) {
+    if (!agent) agent = new HttpsProxyAgent(proxyUrl)
+    options.agent = agent
+  }
   options.headers = options.headers || {}
   options.headers['User-Agent'] = options.headers['User-Agent'] || 'Mozilla/5.0'
 
@@ -52,6 +65,10 @@ function _get(url, options) {
       const headers = res.headers
       const contentLength = +headers['content-length'] || 0
       let currentLength = 0
+      if (res.statusCode >= 400) {
+        reject(new Error(`Failed to fetch ${url}, status code: ${res.statusCode}`))
+        return
+      }
       // follow redirect
       if (res.statusCode > 300 && res.statusCode < 400 && headers.location) {
         return _get(headers.location, options).then(resolve, reject)
@@ -79,11 +96,25 @@ async function installBinding() {
 
   log(`Getting binding download url`)
   const data = await _get('https://api.github.com/repos/frida/frida/releases/latest')
-  const { tag_name } = JSON.parse(data.toString('utf8'))
+  const { tag_name, assets } = JSON.parse(data.toString('utf8'))
+  const moduleVersionList = assets
+    .filter((item) => item.name.indexOf('-node-') !== -1)
+    .map((item) => item.name.match(/node-v(\d+)/)[1])
+  const mod = process.versions.modules
+  if (moduleVersionList.indexOf(mod) === -1) {
+    const version = await _get('https://raw.githubusercontent.com/nodejs/node/main/doc/abi_version_registry.json')
+    const mods = JSON.parse(version.toString())['NODE_MODULE_VERSION']
+    const filteredMods = mods
+      .filter((item) => moduleVersionList.indexOf(String(item.modules)) !== -1)
+      .map((item) => 'v' + item.versions)
+    error(`No binding found for Node.js version ${process.version}`)
+    error(`Support Node.js versions: ${filteredMods.join(', ')}`)
+    process.exit(-1)
+  }
 
   const download = downTemp
     .replace(/%v/g, tag_name)
-    .replace(/%d/g, process.versions.modules)
+    .replace(/%d/g, mod)
     .replace(/%p/g, platform())
     .replace(/%a/g, arch())
 
