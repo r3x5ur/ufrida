@@ -1,6 +1,6 @@
 {
   "name": "ufrida",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "commonjs",
   "main": "dist/index.js",
   "author": "r3x5ur <r3x5ur@developer.org>",
